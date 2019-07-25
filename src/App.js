@@ -1,25 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import maze from './maze';
+import './App.scss';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <table id="maze">
+      <tbody>
+        {maze.map((row, y) =>
+          <tr key={y}>
+            {row.map((column, x) =>
+              <td key={x} className={column === 1 ? "filled" : "empty"}></td>
+            )}
+          </tr>
+        )}
+      </tbody>
+    </table>
   );
 }
 
