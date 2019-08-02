@@ -1,3 +1,5 @@
+import Cell from './Cell';
+
 const maze = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -11,4 +13,13 @@ const maze = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-export default maze;
+const types = [
+  'empty',
+  'wall',
+];
+
+const grid = maze.map((row, y) =>
+  row.map((cell, x) => new Cell(x, y, types[cell]))
+);
+
+export default grid;
