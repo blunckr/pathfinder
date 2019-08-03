@@ -44,23 +44,31 @@ class Pathfinder {
     const path = [];
     let current = node;
     while (current) {
+      current.isPath = true;
       path.unshift(current);
       current = current.parent;
     }
-    return path;
+    this.path = path;
+  }
+
+  isCurrent(cell) {
+    return cell === this.current;
   }
 
   step() {
-    const {closed, end, grid, open} = this;
+    const {closed, end, open} = this;
 
     const current = minBy(open, cell => cell.f);
-    current.isCurrent = true;
+    this.current = current;
     if (current === end) {
-      return this.buildPath(current);
+      this.buildPath(current);
     }
     closed.push(current);
     pull(open, current);
-    this.getNeighbors(current, grid).forEach(neighbor => {
+    this.getNeighbors(current).forEach(neighbor => {
+      const isClosed = includes(closed, neighbor);
+      if (isClosed || neighbor.isWall) return;
+
       const isOpen = includes(open, neighbor);
       const g = current.g + 1;
       let lowestG = false;
@@ -76,6 +84,12 @@ class Pathfinder {
         neighbor.g = g;
       }
     });
+  }
+
+  stepAll() {
+    while(!this.path) {
+      this.step();
+    }
   }
 }
 
